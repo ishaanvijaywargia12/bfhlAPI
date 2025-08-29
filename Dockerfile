@@ -3,7 +3,8 @@ FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /workspace
 COPY pom.xml .
 COPY src ./src
-RUN mvn -q -DskipTests package
+# 👇 add spring-boot:repackage so the jar gets a proper MANIFEST and all deps
+RUN mvn -q -DskipTests package spring-boot:repackage
 
 # ---------- run stage ----------
 FROM eclipse-temurin:17-jre-alpine
